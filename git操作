@@ -1,0 +1,128 @@
+git安装：安装git。
+初始化git仓库 git init生成.git目录（存放备份的代码：你写的js，css等文件会自动备份到里面去）
+注意：-- 后面一般接的是参数，参数主要起说明作用
+配置使用者的用户名和邮箱：git config --global user.name "hll"
+                       git config --global user.email "xxxxx@xxx.com".
+
+git add ./index.html(对应的文件名)  工作区（不包括.git）     放到仓库门口（暂存区）
+add ./ 当前所有文件放到仓库门口
+
+git commit -m "自定义" -m（message:提交的信息）    放到仓库里面（版本库）
+git commit --all -m "自定义" 所有修改后的代码一次性放到仓库中
+
+git status 查看当前的状态 （可以用来查看当前代码有没有被放到版本库中）
+
+.gitignore:设置忽略的文件，忽略的文件不会被添加到git仓库中
+touch .gitignore  生成.gitignore文件
+
+查看提交的记录（日志）：git log (详细记录)
+
+git log --oneline(精简形式)
+git log和git log --oneline命令会生成  fd234cd（版本号） 第四次提交
+                                     09b1f9c 第三次提交
+                                     68ff566 第二次提交
+                                     c6b9ed5 第一次提交
+
+
+版本回退：
+git reset --hard Head~0 回到当前的版本
+git reset --hard Head~1 回到前一个版本
+注意：Head始终指向当前版本
+git reset --hard fd234cd(版本号)
+
+如果不小心关掉了git bash here再打开 输入git log --oneline只会生成当前的版本号，不会出现之前操作
+过的版本号 需要通过 git reflog 才能生成之前操作过的版本号（可以看到所有提交的版本号）
+
+通过版本号可以方便的随时随地切换到任意版本
+
+
+
+创建分支，合并分支
+案例：现在我有个任务量大的功能要做，我先在主分支上备份一份，在创建一个分支自己来慢慢写，写完后在合并到主分支上去
+
+git branch  dev（分支名）创建分支
+git branch 查看分支  dev
+                   * master   *：表示当前分支是master
+git checkout dev 切换到dev这个分支
+在这个分支里写完完整功能，提交到主分支上
+git checkout master 切换到主分支
+git merge dev 合并到主分支
+git branch -d dev 删除dev分支
+
+注意：在合并到主分支之前 不小心在master里修改了代码（要提交到仓库里），这时又要合并到dev分支里去，会
+出现Auto-merging index.txt
+  CONFLICT (content): Merge conflict in index.txt
+  Automatic merge failed; fix conflicts and then commit the result.
+这时需要手动去处理，处理后还需要在提交一次
+
+
+上传到github上（https提交）
+git push 服务器地址 master  会把当前分支的内容上传到远程的master分支上
+
+从github上下载文件到本地
+git pull 服务器地址 master  会把远程分支的内容下载到当前的master分支上
+
+git pull 和git clone都可以拿到远程仓库的文件，一般用pull（多次执行会合并本地内容）比较多
+第一次拿 一般用git clone（多次执行会覆盖本地内容）
+
+上传到github上（ssh方式上传代码）
+公钥（扔给github网站）：
+私钥（自己留着）：
+生成公钥和私钥：ssh-keygen -t rsa -C '邮箱地址' 一直回车即可——>然找到C盘——>点击用户文件夹——>.ssh文件夹——>
+里面会有三个文件：id_rsa(私钥)，id_rsa.pub(公钥)，known_hosts——>复制id_rsa.pub里面的代码（即公钥）——>
+回到github，点击settings——>找到左侧的SSH and GPG keys选项,点开——>点击New SSH key 把复制的内容粘贴在Key里——>给title起个名字
+——>点击Add SSH key——>(点击后有可能要输入密码)  一次配置可终身使用
+
+模拟两个用户同时开发
+用户A代码修改后，先在本地提交，在push到远程服务器
+用户A修改后，用户B要拿到最新提交的直接push就行了
+
+注意：如果A修改代码后，提交。这时用户B也修改了代码并且pull了A提交的代码，可能会导致代码覆盖
+只是需要用户B先提交在合并，合并后会有冲突，需手动修改
+
+先pull在push 如果出错了可以在本地手动修改（先push在pull的话，在服务器出错就很难修改了）
+
+push pull简写方式
+git remote add origin(自定义) 地址
+git push origin -u master（-u只能在push时定义）
+当我们在push时，加上-u参数，那么在下一次push（包括pull）时，直接 git push 就能上传到我们的代码（加上-u后，git会把当前分支与远程指定的分支
+进行关联）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
